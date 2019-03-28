@@ -1,9 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class MemoryGameView {
 
-    public MemoryGameView() {
+    MemoryGameModel model;
+
+    public MemoryGameView(MemoryGameModel model) {
+
+        this.model = model;
 
         SwingUtilities.invokeLater(
                 new Runnable() {
@@ -20,11 +28,12 @@ public class MemoryGameView {
                         // Instantiate tiles and add to main panel
                         for (int i = 0; i < tiles.length; i++) {
                             // Create my tile objects
-                            tiles[i] = new Tile(i + 1);
+                            tiles[i] = new Tile(MemoryGameView.this, i + 1);
+
                             // Add this tile to the main panel
                             mainPanel.add(tiles[i].getLabel());
-                        }
 
+                        }
 
                         JFrame mainFrame = new JFrame();
                         mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -34,7 +43,10 @@ public class MemoryGameView {
                     }
                 }
         );
+    }
 
+    void tileClicked(int tileNumber) {
+        model.doClick(tileNumber);
     }
 
 }
