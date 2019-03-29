@@ -12,7 +12,7 @@ public class Tile {
     public Tile(MemoryGameView parent, int id) {
         this.parent = parent;
         this.id = id;
-        label = new JLabel(String.valueOf(id));
+        label = new JLabel();
         label.setPreferredSize(new Dimension(50, 50));
         label.setBorder(BorderFactory.createEtchedBorder());
         label.setHorizontalAlignment(SwingConstants.CENTER);

@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 public class MemoryGameView {
 
     MemoryGameModel model;
+    Tile[] tiles;
 
     public MemoryGameView(MemoryGameModel model) {
 
@@ -23,17 +24,19 @@ public class MemoryGameView {
                         mainPanel.setLayout(new GridLayout(4, 4));
 
                         // Create array of tile objects
-                        Tile[] tiles = new Tile[16];
+                        tiles = new Tile[16];
 
                         // Instantiate tiles and add to main panel
                         for (int i = 0; i < tiles.length; i++) {
                             // Create my tile objects
-                            tiles[i] = new Tile(MemoryGameView.this, i + 1);
+                            tiles[i] = new Tile(MemoryGameView.this, i);
 
                             // Add this tile to the main panel
                             mainPanel.add(tiles[i].getLabel());
 
                         }
+
+                        updateDisplay();
 
                         JFrame mainFrame = new JFrame();
                         mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -47,6 +50,15 @@ public class MemoryGameView {
 
     void tileClicked(int tileNumber) {
         model.doClick(tileNumber);
+    }
+
+    void updateDisplay() {
+        int[] tilesToDisplay = model.getTilesToDisplay();
+        for (int i = 0; i < tilesToDisplay.length; i++) {
+            if (tilesToDisplay[i] > -1) {
+                tiles[i].getLabel().setText(String.valueOf(tilesToDisplay[i]));
+            }
+        }
     }
 
 }

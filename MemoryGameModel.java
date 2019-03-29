@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class MemoryGameModel {
 
     private int[] tiles = new int[16];
@@ -11,6 +13,10 @@ public class MemoryGameModel {
             tiles[i] = i + 1;
             tiles[i+8] = i + 1;
         }
+
+        // Shuffle the array
+        shuffle(tiles);
+
     }
 
     // When it's your turn, you have to say which tile you've clicked
@@ -61,9 +67,27 @@ public class MemoryGameModel {
         for (int i = 0; i < displayed.length; i++) {
             if (displayed[i]) {
                 returnArray[i] = tiles[i];
+            } else {
+                returnArray[i] = -1;
             }
         }
         return returnArray;
+    }
+
+    static void shuffle(int[] array) {
+        int n = array.length;
+        Random random = new Random();
+        // Loop over array.
+        for (int i = 0; i < array.length; i++) {
+            // Get a random index of the array past the current index.
+            // ... The argument is an exclusive bound.
+            //     It will not go past the array's end.
+            int randomValue = i + random.nextInt(n - i);
+            // Swap the random element with the present element.
+            int randomElement = array[randomValue];
+            array[randomValue] = array[i];
+            array[i] = randomElement;
+        }
     }
 
 
