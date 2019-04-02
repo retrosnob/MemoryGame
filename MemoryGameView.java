@@ -50,6 +50,8 @@ public class MemoryGameView {
 
     void tileClicked(int tileNumber) {
         model.doClick(tileNumber);
+        // Now we need to update the display
+        updateDisplay();
     }
 
     void updateDisplay() {
@@ -57,8 +59,11 @@ public class MemoryGameView {
         for (int i = 0; i < tilesToDisplay.length; i++) {
             if (tilesToDisplay[i] > -1) {
                 tiles[i].getLabel().setText(String.valueOf(tilesToDisplay[i]));
+            } else {
+                tiles[i].getLabel().setText("");
             }
         }
+
     }
 
 }

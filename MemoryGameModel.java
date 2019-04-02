@@ -17,6 +17,13 @@ public class MemoryGameModel {
         // Shuffle the array
         shuffle(tiles);
 
+        // DEBUGGING CODE
+        System.out.println("Order of tiles in model: ");
+        for (int t : tiles) {
+            System.out.print(t + " ");
+        }
+        System.out.println();
+
     }
 
     // When it's your turn, you have to say which tile you've clicked
@@ -38,7 +45,14 @@ public class MemoryGameModel {
             // This must be the second click
             int secondTileNumber = index;
 
-            if (tiles[firstTileNumber] == tiles[secondTileNumber]) {
+            // Need to check that firstTileNumber != secondTileNumber.
+            // But where should I put that check??
+
+            if (firstTileNumber == secondTileNumber) {
+                // Don't do anything because they clicked the same tile twice.
+                return;
+            }
+            else if (tiles[firstTileNumber] == tiles[secondTileNumber]) {
                 // Woohoo! A match!
                 System.out.println("Match found");
                 displayed[firstTileNumber] = true;
@@ -49,8 +63,8 @@ public class MemoryGameModel {
                 System.out.println("No match");
                 displayed[firstTileNumber] = false;
                 // And reset the first tile number.
-                firstTileNumber = -1;
             }
+            firstTileNumber = -1;
         }
     }
 
