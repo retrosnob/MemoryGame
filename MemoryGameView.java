@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.TimerTask;
+import java.util.Timer;
 
 public class MemoryGameView {
 
@@ -52,7 +54,8 @@ public class MemoryGameView {
     }
 
     void tileClicked(int tileNumber) {
-
+        System.out.println("Tile clicked: " + tileNumber);
+        System.out.println("first tile clicked: " + firstTileClicked);
         if (matchedTiles[tileNumber]) {
             return; // Don't do anything if they've picked a tile that's already matched.
         }
@@ -62,8 +65,7 @@ public class MemoryGameView {
         int secondTileClicked;
         if (firstTileClicked == -1) {
             firstTileClicked = tileNumber;
-        }
-        else {
+        } else {
             secondTileClicked = tileNumber;
 
             if (firstTileClicked == secondTileClicked) {
@@ -74,47 +76,45 @@ public class MemoryGameView {
 
                 if (matchFound) {
                     updateMatched();
+                    firstTileClicked = -1;
                 } else {
                     // WAIT for a second and then...
-                    Timer timer = new Timer(1000, new ActionListener() {
+                    Timer timer = new Timer();
+                    TimerTask task = new TimerTask() {
                         @Override
-                        public void actionPerformed(ActionEvent e) {
+                        public void run() {
                             System.out.println("Hello");
+                            hideTiles(firstTileClicked, secondTileClicked);
+                            firstTileClicked = -1;
                         }
-                    });
-                    // hideTiles(firstTileClicked, secondTileClicked);
+                    };
+                    timer.schedule(task, 1000);
                 }
-                firstTileClicked = -1;
-            }
-
-
-        }
-
-
-
-    }
-
-    void showClickedTile(int tileNumber) {
-        tiles[tileNumber].getLabel().setText(String.valueOf(tileNumbers[tileNumber]));
-    }
-
-    void hideTiles(int firstTile, int secondTile) {
-        tiles[firstTile].getLabel().setText("");
-        tiles[secondTile].getLabel().setText("");
-
-    }
-
-    void updateMatched() {
-        // Ask the model for the tiles to Display. This is an array of ints
-        // containing all pairs of matched tiles. All non-matched elements are
-        // set to -1.
-        matchedTiles = model.getMatchedTiles();
-        for (int i = 0; i < matchedTiles.length; i++) {
-            if (matchedTiles[i]) {
-                tiles[i].getLabel().setText(String.valueOf(tileNumbers[i]));
-            } else {
-                tiles[i].getLabel().setText("");
             }
         }
     }
-}
+
+        void showClickedTile ( int tileNumber){
+            tiles[tileNumber].getLabel().setText(String.valueOf(tileNumbers[tileNumber]));
+        }
+
+        void hideTiles ( int firstTile, int secondTile){
+            tiles[firstTile].getLabel().setText("");
+            tiles[secondTile].getLabel().setText("");
+
+        }
+
+        void updateMatched () {
+            // Ask the model for the tiles to Display. This is an array of ints
+            // containing all pairs of matched tiles. All non-matched elements are
+            // set to -1.
+            matchedTiles = model.getMatchedTiles();
+            for (int i = 0; i < matchedTiles.length; i++) {
+                if (matchedTiles[i]) {
+                    tiles[i].getLabel().setText(String.valueOf(tileNumbers[i]));
+                } else {
+                    tiles[i].getLabel().setText("");
+                }
+            }
+        }
+    }
