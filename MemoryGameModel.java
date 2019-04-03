@@ -36,8 +36,6 @@ public class MemoryGameModel {
 
             // This must be the first click
             firstTileNumber = index;
-            // Update the
-            displayed[firstTileNumber] = true;
         }
         else {
             System.out.println("Model received second click: " + index);
